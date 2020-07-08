@@ -7,16 +7,14 @@ import { TabContainer, Tab, TabList, TabPanel } from '../panel-ui/ui/tabs';
 import { PanelContainer, Panel } from '../panel-ui/ui/panel-container';
 
 import styles from './compositions.module.scss';
+import { useChangeHandler } from '../../to-eject/hooks/use-change-handler/use-change-handler';
 
 export function Compositions() {
   const component = useContext(ComponentContext);
   const [selected, selectComposition] = useState(head(component.compositions));
 
   // reset selected composition when component changes.
-  // this does trigger rerender, but perf seems to be ok
-  useEffect(() => {
-    selectComposition(component.compositions[0]);
-  }, [component]);
+  useChangeHandler(component, () => selectComposition(component.compositions[0]));
 
   return (
     <PanelContainer className={styles.compositionsPage}>
